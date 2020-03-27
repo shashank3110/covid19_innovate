@@ -46,7 +46,7 @@ def get_state_data():
                 const = item['confirmedCasesIndian']+item['confirmedCasesForeign']+item['discharged']+item['deaths']
                 continue
             else:
-                k = item.pop('loc')
+                k = item['loc']
                 states[k] = item
                 total_cases = item['confirmedCasesIndian']+item['confirmedCasesForeign']+item['discharged']+item['deaths']
                 cases.append( {'State':k ,'Total_Cases': total_cases})
@@ -94,13 +94,18 @@ def get_state_data():
     legend_name='Total Covid 19 cases in India'
 ).add_to(m)
         m.save('Map.html')
-        #print(state_geo_data)
-        #response= requests.get('https://github.com/geohacker/india/blob/master/state/india_telengana.geojson')
-        #counties = response.json()#json.loads(response)
+
+        latest_states_df = pd.DataFrame(latest_regional_data)
+       
+        return latest_states_df,latest_summary
+
     except Exception as e:
         print(e)
         print('Data load error')
 
+        return -1,-1
+
 if __name__=='__main__':
-    get_state_data()
+    latest_states_df,latest_summary = get_state_data()
+    print(latest_states_df,latest_summary)
         
