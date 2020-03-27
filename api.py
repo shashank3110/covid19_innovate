@@ -8,6 +8,7 @@ import json
 import pandas as pd
 from bs4 import BeautifulSoup
 import time
+import os
 
 url = "https://www.worldometers.info/coronavirus/"
 def scrape_data(url):
@@ -21,7 +22,7 @@ def scrape_data(url):
     return data
 
 app = Flask(__name__,\
-            template_folder = '/home/dhirensr/open_source/covid19_innovate/static/')
+            template_folder = os.getcwd()+'/static/')
 
 @app.route('/')
 def index():
@@ -64,7 +65,7 @@ def map_route():
                 total_cases = item['confirmedCasesIndian']+item['confirmedCasesForeign']+item['discharged']+item['deaths']
                 cases.append( {'State':k ,'Total_Cases': total_cases})
 
-        state_geo_data=json.load(open('/home/dhirensr/open_source/covid19_innovate/indian_states.json'))
+        state_geo_data=json.load(open(os.getcwd()+'/indian_states.json'))
 
         m = folium.Map([20.5937, 78.9629],zoom_start=4.35) # centered on coordinates of india
 
