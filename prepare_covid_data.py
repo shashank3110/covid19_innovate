@@ -12,10 +12,10 @@ def get_state_data():
 
     response_dict = response.json()
     states = defaultdict(dict)
-    
+
     status = response_dict['success']
     cases = []#defaultdict()
-    print(f'Data Pull status={status}')
+    #print(f'Data Pull status={status}')
 
     state_list=['Sikkim','Andhra Pradesh', 'Bihar', 'Chhattisgarh','Arunachal Pradesh',\
          'Delhi', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Karnataka', \
