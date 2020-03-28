@@ -6,21 +6,7 @@ import folium
 import json
 import pandas as pd
 #import plotly.express as px
-
-def get_state_data():
-    '''
-    Collect latest statewise data for corona virus cases and plot a choropleth
-    map with markers describing numbers
-    '''
-    response = requests.get('https://api.rootnet.in/covid19-in/stats/daily')
-
-    response_dict = response.json()
-    states = defaultdict(dict)
-    
-    status = response_dict['success']
-    cases = []#defaultdict()
-    print(f'Data Pull status={status}')
-    coord_dict ={
+coord_dict ={
     'Sikkim':[27.5330,88.5122],'Andhra Pradesh':[15.9129,79.7400], 'Bihar':[25.0961,85.313], 'Chhattisgarh':[21.2787,81.8661],'Arunachal Pradesh':[28.2180,94.7278],\
          'Delhi':[28.7041,77.1025], 'Gujarat':[22.2587,71.1924], 'Haryana':[29.0588,76.0856], 'Himachal Pradesh':[31.1048,77.1734], 'Karnataka':[15.3173,75.7139], \
         'Kerala':[10.8505,76.2711], 'Madhya Pradesh':[22.9734,78.6569], 'Maharashtra':[19.7515,75.7139], 'Manipur':[24.6637,93.9063], 'Mizoram':[23.1645,92.9376], \
@@ -30,8 +16,23 @@ def get_state_data():
         'Goa':[15.2993,74.1240],'Nagaland':[26.1584,94.5624],'Lakshadweep':[8.295441,73.048973],'Dadra and Nagar Haveli':[20.1809,73.0169], 'Daman and Diu':[20.4283,72.839],
         'Jharkhand':[23.6102,85.2799],'Meghalaya':[25.4670,91.3662],'Andaman and Nicobar Islands':[11.7401,92.6586],
         'Ladakh':[34.152588,77.577049]
+    #print(f'Data Pull status={status}')
 
     }
+def get_state_data():
+    '''
+    Collect latest statewise data for corona virus cases and plot a choropleth
+    map with markers describing numbers
+    '''
+    response = requests.get('https://api.rootnet.in/covid19-in/stats/daily')
+
+    response_dict = response.json()
+    states = defaultdict(dict)
+
+    status = response_dict['success']
+    cases = []#defaultdict()
+    print(f'Data Pull status={status}')
+    
     state_list=['Sikkim','Andhra Pradesh', 'Bihar', 'Chhattisgarh','Arunachal Pradesh',\
          'Delhi', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Karnataka', \
         'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Mizoram', \
@@ -105,7 +106,7 @@ def get_state_data():
     line_opacity=0.9,
     legend_name='Total Covid 19 cases in India'
 ).add_to(m)
-        m.save('Map.html')
+        m.save('static/Map.html')
 
         latest_states_df = pd.DataFrame(latest_regional_data)
        
