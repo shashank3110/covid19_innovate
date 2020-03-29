@@ -1,5 +1,3 @@
-#<iframe src="https://www.google.com/maps/d/embed?mid=1YfaJKmfs2xnuqXjOyHXxVR6ZFZtZnU6N" width="640" height="480"></iframe>
-
 import requests
 from collections import defaultdict
 import folium
@@ -82,18 +80,18 @@ def get_state_data():
         state_data.sort_values(by=['State'],inplace=True)
         
         state_data.loc[state_data['State']=='Jammu and Kashmir','Total_Cases']+=const
-        print(state_data)
+        # print(state_data)
        
-        print('########################################')
-        print(states.keys())
-        print(len(states.keys()))
+        # print('########################################')
+        # print(states.keys())
+        # print(len(states.keys()))
         
-        print(type(state_geo_data))
+        # print(type(state_geo_data))
       
-        for i,_ in enumerate(state_geo_data['features']):
-            state_geo_data['features'][i]['id'] = state_geo_data['features'][i]['properties']['NAME_1']
-            #state_data['State'][i]=state_geo_data['features'][i]['id']
-            print(state_geo_data['features'][i]['id'])
+        # for i,_ in enumerate(state_geo_data['features']):
+        #     state_geo_data['features'][i]['id'] = state_geo_data['features'][i]['properties']['NAME_1']
+        #     #state_data['State'][i]=state_geo_data['features'][i]['id']
+        #     print(state_geo_data['features'][i]['id'])
         #state_data
         folium.Choropleth(
     geo_data=state_geo_data,
@@ -121,4 +119,3 @@ def get_state_data():
 if __name__=='__main__':
     latest_states_df,latest_summary = get_state_data()
     print(latest_states_df,latest_summary)
-        

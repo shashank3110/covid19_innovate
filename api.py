@@ -26,11 +26,12 @@ app = Flask(__name__,\
 
 @app.route('/')
 def index():
+    # get_state_data()
     return render_template("charts.html")
 
 @app.route('/map')
 def map_route():
-    
+    #not required if we load on main page itself
     try:
         get_state_data()
     except Exception as e:
@@ -161,6 +162,10 @@ def get_cases_per_day_per_state():
     return jsonify({'dates' : date,\
                     'count_per_day' : count_per_day})
 
+@app.route('/lab_maps')
+def get_lab_map():
+    #not required if we load on main page
+    return app.send_static_file('lab_maps.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
