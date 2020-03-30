@@ -123,14 +123,17 @@ def get_cases_per_million_population():
 def get_cases_per_state():
     response = requests.get('https://api.rootnet.in/covid19-in/stats/latest')
     response_dict = response.json()
+    #res.headers.add('Access-Control-Allow-Origin', '*')
     locations = []
     count_per_location = []
     data = response_dict['data']['regional']
     for i in data:
         locations.append(i['loc'])
         count_per_location.append(i['confirmedCasesIndian'] + i['confirmedCasesForeign'])
-    return jsonify({'locations' : locations,\
-                    'count' : count_per_location})
+    res = jsonify({'locations' : locations,\
+                   'count' : count_per_location})
+    res.headers.add('Access-Control-Allow-Origin', '*')
+    return res
 
 @app.route('/india/cases-per-day', methods=['GET'])
 def get_cases_per_day():
@@ -142,8 +145,10 @@ def get_cases_per_day():
     for i in data:
         date.append(i['day'])
         count_per_day.append(i['summary']['total'])
-    return jsonify({'dates' : date,\
+    res = jsonify({'dates' : date,\
                     'count_per_day' : count_per_day})
+    res.headers.add('Access-Control-Allow-Origin', '*')
+    return res
 
 @app.route('/india/cases-per-day-per-state', methods=['GET'])
 def get_cases_per_day_per_state():
@@ -159,9 +164,10 @@ def get_cases_per_day_per_state():
 
             if(j['loc'] == state):
                 count_per_day.append(j['confirmedCasesIndian'] + j['confirmedCasesForeign'])
-    return jsonify({'dates' : date,\
+    res = jsonify({'dates' : date,\
                     'count_per_day' : count_per_day})
-
+    res.headers.add('Access-Control-Allow-Origin', '*')
+    return res
 @app.route('/lab_maps')
 def get_lab_map():
     #not required if we load on main page
