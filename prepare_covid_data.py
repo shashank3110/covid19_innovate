@@ -3,6 +3,7 @@ from collections import defaultdict
 import folium
 import json
 import pandas as pd
+import os
 #import plotly.express as px
 coord_dict ={
     'Sikkim':[27.5330,88.5122],'Andhra Pradesh':[15.9129,79.7400], 'Bihar':[25.0961,85.313], 'Chhattisgarh':[21.2787,81.8661],'Arunachal Pradesh':[28.2180,94.7278],\
@@ -29,8 +30,8 @@ def get_state_data():
 
     status = response_dict['success']
     cases = []#defaultdict()
-    print(f'Data Pull status={status}')
-    
+    #print(f'Data Pull status={status}')
+
     state_list=['Sikkim','Andhra Pradesh', 'Bihar', 'Chhattisgarh','Arunachal Pradesh',\
          'Delhi', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Karnataka', \
         'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Mizoram', \
@@ -62,32 +63,32 @@ def get_state_data():
                 total_cases = item['confirmedCasesIndian']+item['confirmedCasesForeign']+item['discharged']+item['deaths']
                 cases.append( {'State':k ,'Total_Cases': total_cases})
             folium.Marker(coord_dict[item['loc']],color='blue',popup=item,tooltip=item['loc'],max_height=5,icon=folium.Icon(color='yellow', icon='user')).add_to(m)
-        state_geo_data=json.load(open('/home/shashanks/git_code/covid19_innovate/indian_states.json'))
-        
+        state_geo_data=json.load(open(os.getcwd()+'/indian_states.json'))
+
          # centered on coordinates of india
-       
-        
-        
-        
+
+
+
+
 
         for st in state_list:
             if st not in states.keys():
                 cases.append( {'State':st ,'Total_Cases': 0})
             states[st] = {'confirmedCasesIndian': 0, 'confirmedCasesForeign': 0, 'discharged': 0, 'deaths': 0}
-            
-        
+
+
         state_data = pd.DataFrame(cases,columns=['State','Total_Cases'])
         state_data.sort_values(by=['State'],inplace=True)
-        
+
         state_data.loc[state_data['State']=='Jammu and Kashmir','Total_Cases']+=const
         # print(state_data)
-       
+
         # print('########################################')
         # print(states.keys())
         # print(len(states.keys()))
-        
+
         # print(type(state_geo_data))
-      
+
         # for i,_ in enumerate(state_geo_data['features']):
         #     state_geo_data['features'][i]['id'] = state_geo_data['features'][i]['properties']['NAME_1']
         #     #state_data['State'][i]=state_geo_data['features'][i]['id']
