@@ -42,13 +42,13 @@ def get_state_data():
         'Jharkhand','Meghalaya','Andaman and Nicobar Islands']
     try:
         daily_data = response_dict['data']
-        
+
         # to get  latest day data
         latest_data = daily_data[-1]
         latest_regional_data = latest_data['regional']
         latest_date = latest_data['day']
         latest_summary = latest_data['summary']
-      
+
         const=0
         m = folium.Map([20.5937, 78.9629],zoom_start=4.5)
         for item  in latest_regional_data:
@@ -105,10 +105,10 @@ def get_state_data():
     line_opacity=0.9,
     legend_name='Total Covid 19 cases in India'
 ).add_to(m)
-        m.save('static/Map.html')
+        m.save('frontend/assets/Map.html')
 
         latest_states_df = pd.DataFrame(latest_regional_data)
-       
+
         return latest_states_df,latest_summary
 
     except Exception as e:

@@ -50,6 +50,15 @@
 /*-------------------------------------------------------------------*/
 /* === SCSS Compass Functions === */
 
+a.button {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+
+    text-decoration: none;
+    color: initial;
+}
+
 @-webkit-keyframes flash {
   0% {
     opacity: 1; }

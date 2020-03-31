@@ -37,7 +37,7 @@ def map_route():
     except Exception as e:
         print(e)
         print('Data load error')
-    return app.send_static_file('Map.html')
+    return jsonify({})
 
 @app.route('/countries/cases.', methods=['GET'])
 def get_cases():
@@ -168,6 +168,52 @@ def get_cases_per_day_per_state():
                     'count_per_day' : count_per_day})
     res.headers.add('Access-Control-Allow-Origin', '*')
     return res
+
+@app.route('/india/hospitals', methods=['GET'])
+def get_hospitals_stats():
+    response = requests.get('https://api.rootnet.in/covid19-in/stats/hospitals')
+    response_dict = response.json()
+    state = []
+    hospitals = []
+    beds = []
+    data = response_dict['data']['regional']
+    for i in data:
+        state.append(i['state'])
+        hospitals.append(i['totalHospitals'])
+        beds.append(i['totalBeds'])
+
+    res = jsonify({'states' : state,\
+                    'hospitals' : hospitals,
+                   'beds' : beds})
+    res.headers.add('Access-Control-Allow-Origin', '*')
+    return res
+
+@app.route('/india/covid19-data', methods=['GET'])
+def get_covid19_data():
+    response = requests.get('https://api.rootnet.in/covid19-in/stats/latest')
+    response_dict = response.json()
+    state = []
+    recovered= []
+    deaths=[]
+    total_deaths = response_dict['data']['summary']['deaths']
+    total_recovered = response_dict['data']['summary']['discharged']
+    total = response_dict['data']['summary']['total']
+    data = response_dict['data']['regional']
+    for i in data:
+        state.append(i['loc'])
+        recovered.append(i['discharged'])
+        deaths.append(i['deaths'])
+
+    res = jsonify({'states' : state,\
+                    'deaths' : deaths,
+                   'discharged' : recovered,
+                   "total" : total,
+                   "total_deaths" : total_deaths,
+                   "total_recovered" : total_recovered})
+    res.headers.add('Access-Control-Allow-Origin', '*')
+    return res
+
+
 @app.route('/lab_maps')
 def get_lab_map():
     #not required if we load on main page
