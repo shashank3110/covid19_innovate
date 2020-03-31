@@ -14,7 +14,7 @@ function load_data(){
 			      tableHtml += "<tr>"
 				        +"<td>"+ state +"</td>"
                 + "<td>"+ deaths+"</td>"
-				        +  "<td>"+ recovered +"</td>"
+				        +  "<td>"+ discharged +"</td>"
                 + "</tr>";
         }
 		    $('#total_cases').html(total);
